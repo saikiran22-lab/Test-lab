@@ -16,13 +16,16 @@ spec:
   ) {
 
   node(POD_LABEL) {
+    stage('checkout') {
+      checkout(scm) 
+    }
     stage('Build a Maven project') {
       git 'https://github.com/jenkinsci/kubernetes-plugin.git'
       container('maven') {
         sh 'mvn -B clean package'
       }
     }
-
+  
     stage('Build a Golang project') {
       git url: 'https://github.com/terraform-providers/terraform-provider-aws.git'
       container('golang') {
